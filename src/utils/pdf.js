@@ -6,17 +6,15 @@ export const generatePDF = (customer) => {
   return new Promise((resolve, reject) => {
     try {
       const doc = new jsPDF();
-      
-      // Add title and header
       doc.setFontSize(20);
-      doc.setTextColor(41, 98, 255); // Primary color
+      doc.setTextColor(41, 98, 255); 
       doc.text('CrediKhaata', 105, 15, { align: 'center' });
       
       doc.setFontSize(16);
       doc.setTextColor(0, 0, 0);
       doc.text('Customer Statement', 105, 25, { align: 'center' });
       
-      // Add customer details
+      
       doc.setFontSize(12);
       doc.setTextColor(80, 80, 80);
       doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 35);
@@ -31,12 +29,12 @@ export const generatePDF = (customer) => {
       doc.text(`Address: ${customer.address}`, 14, 64);
       doc.text(`Outstanding Amount: ₹${customer.totalOutstanding.toLocaleString()}`, 14, 70);
       
-      // Add loan details
+      
       doc.setFontSize(12);
       doc.setTextColor(0, 0, 0);
       doc.text('Loan Summary:', 14, 80);
       
-      // Create loan table
+      
       const loanHeaders = [
         'Item', 
         'Date', 
@@ -80,35 +78,35 @@ export const generatePDF = (customer) => {
           fontStyle: 'bold',
         },
         columnStyles: {
-          0: { cellWidth: 30 }, // Item
-          1: { cellWidth: 20 }, // Date
-          2: { cellWidth: 20 }, // Amount
-          3: { cellWidth: 20 }, // Repaid
-          4: { cellWidth: 20 }, // Remaining
-          5: { cellWidth: 20 }, // Due Date
-          6: { cellWidth: 20 }, // Status
+          0: { cellWidth: 30 }, 
+          1: { cellWidth: 20 }, 
+          2: { cellWidth: 20 }, 
+          3: { cellWidth: 20 }, 
+          4: { cellWidth: 20 }, 
+          5: { cellWidth: 20 }, 
+          6: { cellWidth: 20 }, 
         },
         alternateRowStyles: {
           fillColor: [245, 245, 245],
         },
         didDrawCell: (data) => {
-          // Highlight overdue cells
+          
           if (data.column.index === 6 && data.cell.raw === 'Overdue') {
-            doc.setTextColor(220, 38, 38); // Red color for overdue
+            doc.setTextColor(220, 38, 38); 
           } else if (data.column.index === 6 && data.cell.raw === 'Paid') {
-            doc.setTextColor(34, 197, 94); // Green color for paid
+            doc.setTextColor(34, 197, 94); 
           } else {
-            doc.setTextColor(0, 0, 0); // Default black
+            doc.setTextColor(0, 0, 0); 
           }
         },
       });
       
-      // Add repayment details for each loan
+      
       let yPos = doc.lastAutoTable.finalY + 15;
       
       customer.loans.forEach(loan => {
         if (loan.repayments.length > 0) {
-          // Move to next page if not enough space
+          
           if (yPos > 250) {
             doc.addPage();
             yPos = 15;
@@ -138,9 +136,9 @@ export const generatePDF = (customer) => {
               textColor: [255, 255, 255],
             },
             columnStyles: {
-              0: { cellWidth: 30 }, // Date
-              1: { cellWidth: 30 }, // Amount
-              2: { cellWidth: 60 }, // Note
+              0: { cellWidth: 30 }, 
+              1: { cellWidth: 30 }, 
+              2: { cellWidth: 60 }, 
             },
           });
           
@@ -148,7 +146,7 @@ export const generatePDF = (customer) => {
         }
       });
       
-      // Add footer
+      
       const pageCount = doc.internal.getNumberOfPages();
       for (let i = 1; i <= pageCount; i++) {
         doc.setPage(i);
@@ -168,7 +166,7 @@ export const generatePDF = (customer) => {
         );
       }
       
-      // Save the PDF
+      
       doc.save(`${customer.name.replace(/\s+/g, '_')}_Statement.pdf`);
       
       toast.success('Statement exported successfully!');

@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is already logged in
     const user = localStorage.getItem('user');
     if (user) {
       setCurrentUser(JSON.parse(user));
@@ -20,12 +19,9 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // For demonstration purposes, we'll use mock login/signup
   const login = (email, password) => {
-    // Simulating API call
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        // Mock validation
         if (email === 'demo@example.com' && password === 'password') {
           const user = {
             id: '1',
@@ -47,11 +43,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signup = (name, email, password, shopName) => {
-    // Simulating API call
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         try {
-          // In a real app, you would make an API call to register the user
           const user = {
             id: Math.random().toString(36).substring(2, 9),
             name,

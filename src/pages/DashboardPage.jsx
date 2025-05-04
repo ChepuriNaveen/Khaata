@@ -312,7 +312,7 @@ const DashboardPage = () => {
                 className="text-muted-foreground hover:text-foreground"
                 onClick={() => setShowAddCustomer(false)}
               >
-                <X className="h-5 w-5" />
+
               </button>
             </div>
             <AddCustomerForm onClose={() => setShowAddCustomer(false)} />
